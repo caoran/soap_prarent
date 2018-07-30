@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>核查对比</title>
+<link th:href="@{/css/main_style.css}" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" media="screen"/>
+<link rel="stylesheet" th:href="@{/css/bootstrap-treeview.min.css}" media="screen"/>
+<link rel="stylesheet" th:href="@{/css/bootstrap-table.css}" media="screen"/>
+
+</head>
+
+<body>
+<div class="page_con">
+<table width="100%" border="0" cellspacing="0" cellpadding="0" class="data_tab">
+    <tr>
+      <th align="center" valign="middle" nowrap="nowrap"><!--<input type="checkbox" name="checkbox" id="checkbox" />-->序号</th>
+      <th align="center" valign="middle" nowrap="nowrap">创建时间</th>
+      <th align="center" valign="middle" nowrap="nowrap">核查地市</th>
+      <th align="center" valign="middle" nowrap="nowrap">设备制式</th>
+      <th align="center" valign="middle" nowrap="nowrap">总数数据</th>
+      <th align="center" valign="middle" nowrap="nowrap">错误数据</th>
+    </tr>
+
+  <tr th:each="checkItem,iterStat : ${data.checkResult}">
+      <td align="center" valign="middle" th:text="${iterStat.count}"><input type="checkbox" name="checkbox2" id="checkbox2"  /></td>
+      <td align="center" valign="middle" th:text="${#dates.format(data.createTime, 'yyyy-MM-dd HH:mm:ss')}"></td>
+      <td align="center" th:text="${#lists.toList(data.busiCity)[0]}">00</td>
+      <td align="center">
+          <a th:onclick="'javascript:showDetail(\''+${checkItem.key}+'\',\''+${orderId}+'\')'" class="pop_detail" th:text="${checkItem.key}">23</a>
+      </td>
+      <td align="center" th:text="${checkItem.value.totalCount}">9999999999999</td>
+      <td align="center" th:text="${#lists.size(checkItem.value.resultList)}">10000</td>
+    </tr>
+  </table>
+
+<script type="text/javascript" th:src="@{/js/jquery-1.12.3.js}"></script>
+<script th:src="@{/js/layer/layer.js}"></script>
+<script th:src="@{/js/jquery-1.11.0.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap-table.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap-table-zh-CN.js}"></script>
+
+  <script>
+function showDetail(busiDictName,orderId) {
+    console.log(busiDictName);
+    console.log(orderId);
+    layer.open({
+        type: 2,
+        title: '检查信息',
+        maxmin: true,
+        area: ['680px', '420px'],
+        content: '/frame/'+orderId+'/detail/'+busiDictName
+    })
+}
+
+</script>
+</div>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>核查数据</title>
+<link th:href="@{/css/main_style.css}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" th:src="@{/js/jquery-1.12.3.js}"></script>
+<script th:src="@{/js/layer/layer.js}"></script>
+</head>
+
+<body>
+<div class="page_con"> 
+  <ul class="nav_tab">
+    <li class="flag">ENS</li>
+    <li>HSS</li>
+  </ul>
+  <div class="net_cont">
+    <div class="net_cont_tb current">
+      <div class="searchbt_blk">
+        <input name="input3" type="button" value="添加文件" id="pop_addfile" />
+        <input name="input3" type="button" value="全部上传" />
+        <input name="input4" type="button" value="添加上次文件 " />
+        <input name="input5" type="button" value="删除所造文件" />
+        <input name="input3" type="reset" value="模板下载" />
+      </div>
+      <table width="100%" border="0" cellspacing="0" cellpadding="0" class="data_tab">
+        <tr>
+          <th align="center" valign="middle" nowrap="nowrap"><input type="checkbox" name="checkbox" id="checkbox" /></th>
+          <th align="center" valign="middle" nowrap="nowrap">文件名</th>
+          <th align="center" valign="middle" nowrap="nowrap">大小</th>
+          <th align="center" valign="middle" nowrap="nowrap">文件状态</th>
+        </tr>
+        <tr>
+          <td align="center" valign="middle"><input type="checkbox" name="checkbox2" id="checkbox2" /></td>
+          <td align="center" valign="middle">ENS-01.txt</td>
+          <td align="center">10M</td>
+          <td align="center">已上传</td>
+        </tr>
+        <tr>
+          <td align="center" valign="middle"><input type="checkbox" name="checkbox3" id="checkbox3" /></td>
+          <td align="center" valign="middle">ENS-02.txt</td>
+          <td align="center">120M</td>
+          <td align="center">87%</td>
+        </tr>
+        <tr>
+          <td align="center" valign="middle"><input type="checkbox" name="checkbox4" id="checkbox4" /></td>
+          <td align="center" valign="middle">ENS-03.txt</td>
+          <td align="center">4M</td>
+          <td align="center">68%</td>
+        </tr>
+        <tr>
+          <td align="center" valign="middle"><input type="checkbox" name="checkbox5" id="checkbox5" /></td>
+          <td align="center" valign="middle">ENS-04.txt</td>
+          <td align="center">20M</td>
+          <td align="center">64%</td>
+        </tr>
+        <tr>
+          <td align="center" valign="middle"><input type="checkbox" name="checkbox6" id="checkbox6" /></td>
+          <td align="center" valign="middle">ENS-05.txt</td>
+          <td align="center">110M</td>
+          <td align="center">等待上传</td>
+        </tr>
+      </table>
+      <div class="fenye">
+        <div class="jilu_all">总共40条记录，每页显示<span>
+          <select>
+            <option>5</option>
+          </select>
+          </span>条记录</div>
+        <div class="yema"> <a href="">&lt;</a><a href="" class="active">1</a><a href="">2</a><a href="">3</a><a href="">&gt;</a> </div>
+      </div>
+    </div>
+    <div class="net_cont_tb">2</div>
+  </div>
+  <div class="clear_fix"></div>
+
+</div>
+<script language="javascript">
+  /*网元选择切换*/
+	 $('.nav_tab li').click(function(){
+		 $(this).addClass('flag').siblings().removeClass('flag');
+		 var section=$(".nav_tab li");
+		 var index=section.index(this);
+		 $('.net_cont_tb').eq(index).show().siblings().hide();		 
+		 })   
+		 
+//添加文件
+$('#pop_addfile').on('click', function(){
+    layer.open({
+    type: 2,
+    title: '添加文件',
+    maxmin: true,
+    area: ['540px', '360px'],
+    content: 'pop_addfile.html',
+  });
+});
+</script>
+</body>
+</html>

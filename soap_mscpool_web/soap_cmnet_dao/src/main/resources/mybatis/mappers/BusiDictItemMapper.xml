@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.boco.soap.cmnet.dao.BusiDictItemMapper" >
+  <resultMap id="BaseResultMap" type="com.boco.soap.cmnet.beans.entity.BusiDictItem" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_USER_ID" property="createUserId" jdbcType="VARCHAR" />
+    <result column="DICT_ID" property="dictId" jdbcType="VARCHAR" />
+    <result column="PARAM_NAME" property="paramName" jdbcType="VARCHAR" />
+    <result column="SEQ_NO" property="seqNo" jdbcType="DECIMAL" />
+    <result column="STD_NAME" property="stdName" jdbcType="VARCHAR" />
+    <result column="CUR_NAME" property="curName" jdbcType="VARCHAR" />
+    <result column="PARAM_PROPERTY" property="paramProperty" jdbcType="VARCHAR" />
+    <result column="CHECK_LOGIC" property="checkLogic" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CREATE_TIME, CREATE_USER_ID, DICT_ID, PARAM_NAME, SEQ_NO, STD_NAME, CUR_NAME,PARAM_PROPERTY,CHECK_LOGIC
+  </sql>
+  <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_BUSI_DICT_ITEM
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="getByDictId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from T_BUSI_DICT_ITEM
+    where DICT_ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.String" >
+    delete from T_BUSI_DICT_ITEM
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+
+  <insert id="save" parameterType="com.boco.soap.cmnet.beans.entity.BusiDictItem" >
+    insert into T_BUSI_DICT_ITEM
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID,
+      </if>
+      <if test="dictId != null" >
+        DICT_ID,
+      </if>
+      <if test="paramName != null" >
+        PARAM_NAME,
+      </if>
+      <if test="seqNo != null" >
+        SEQ_NO,
+      </if>
+      <if test="stdName != null" >
+        STD_NAME,
+      </if>
+      <if test="curName != null" >
+        CUR_NAME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="dictId != null" >
+        #{dictId,jdbcType=VARCHAR},
+      </if>
+      <if test="paramName != null" >
+        #{paramName,jdbcType=VARCHAR},
+      </if>
+      <if test="seqNo != null" >
+        #{seqNo,jdbcType=DECIMAL},
+      </if>
+      <if test="stdName != null" >
+        #{stdName,jdbcType=VARCHAR},
+      </if>
+      <if test="curName != null" >
+        #{curName,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.boco.soap.cmnet.beans.entity.BusiDictItem" >
+    update T_BUSI_DICT_ITEM
+    <set >
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="dictId != null" >
+        DICT_ID = #{dictId,jdbcType=VARCHAR},
+      </if>
+      <if test="paramName != null" >
+        PARAM_NAME = #{paramName,jdbcType=VARCHAR},
+      </if>
+      <if test="seqNo != null" >
+        SEQ_NO = #{seqNo,jdbcType=DECIMAL},
+      </if>
+      <if test="stdName != null" >
+        STD_NAME = #{stdName,jdbcType=VARCHAR},
+      </if>
+      <if test="curName != null" >
+        CUR_NAME = #{curName,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

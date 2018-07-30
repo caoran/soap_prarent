@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.boco.soap.cmnet.dao.OrderMapper" >
+  <resultMap id="BaseResultMap" type="com.boco.soap.cmnet.beans.entity.Order" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="ORDER_NAME" property="orderName" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_USER_ID" property="createUserId" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="INTEGER" />
+    <result column="BUSI_ID" property="busiId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, ORDER_NAME, CREATE_TIME, CREATE_USER_ID, STATUS, BUSI_ID
+  </sql>
+  <select id="getById" resultMap="BaseResultMap" parameterType="com.boco.soap.cmnet.beans.entity.Order" >
+    select
+    <include refid="Base_Column_List" />
+    from T_ORDER
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getList" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from T_ORDER
+    <where>
+      <if test="id != null" >
+       and ID = #{id,jdbcType=VARCHAR}
+      </if>
+      <if test="orderName != null" >
+          and ORDER_NAME like CONCAT('%',CONCAT(#{orderName},'%'))
+      </if>
+      <if test="createTime != null" >
+          and CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+      </if>
+      <if test="createUserId != null" >
+          and  CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="status != null" >
+          and STATUS = #{status,jdbcType=INTEGER}
+      </if>
+      <if test="busiId != null" >
+          and BUSI_ID = #{busiId,jdbcType=VARCHAR}
+      </if>
+    </where>
+    order by CREATE_TIME desc
+  </select>
+
+  <delete id="deleteById" parameterType="java.lang.String" >
+    delete from T_ORDER
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="save" parameterType="com.boco.soap.cmnet.beans.entity.Order" >
+    insert into T_ORDER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="orderName != null" >
+        ORDER_NAME,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="busiId != null" >
+        BUSI_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orderName != null" >
+        #{orderName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="busiId != null" >
+        #{busiId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.boco.soap.cmnet.beans.entity.Order" >
+    update T_ORDER
+    <set >
+      <if test="orderName != null" >
+        ORDER_NAME = #{orderName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="busiId != null" >
+        BUSI_ID = #{busiId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

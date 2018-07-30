@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<link th:href="@{/css/main_style.css}" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="step_pagebg"  style="min-height: 600px">
+<div class="step_stepblk">
+    <h3>工单流程环节</h3>
+    <ul id="ul">
+        <li th:each="processDetail,iterStat : ${processDetailList}" th:attr="id=${processDetail.seqNo}">
+            <a href="#" th:onclick="'return JumpTo('+${processDetail.seqNo}+')'" th:text="${processDetail.name}">核查数据</a>
+        </li>
+    </ul>
+</div>
+<div class="setp_right_bt">
+    <input id="refresh" type="button" class="rightbt_refresh" value="流程刷新" onclick="refresh();" />
+    <input id="next" type="button" class="rightbt_normal" value="下一步" onclick="return jumpNext();" />
+    <input id="cancel" type="button" class="rightbt_gray" value="撤销" onclick="return cancel();" />
+    <input id="file" type="button" class="rightbt_gray" value="归档" onclick="return file();" />
+    <input id="back" type="button" class="rightbt_gray" value="回退" onclick="return backOrder();"  />
+    <a th:onclick="'javascript:openHistory(\''+${userId}+'\')'" class="rightbt_refresh" target="external-frame" > 历史结果 </a>
+</div>
+<input id="orderId" type="hidden" th:attr="value=${orderId}"></input>
+<input id="status" type="hidden" th:attr="value=${status}"></input>
+<input id="busiId" type="hidden" th:attr="value=${busiId}"></input>
+<input id="userId" type="hidden" th:attr="value=${userId}"></input>
+</body>
+<script th:src="@{/js/jquery-1.11.0.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.serializejson.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/layer/layer.js}"></script>
+<script type="text/javascript">
+    //<![CDATA[
+    var orderId, status, busiId, userId,currentStatus;
+    orderId = $('#orderId').val();
+    status = $('#status').val();
+    busiId = $('#busiId').val();
+    userId = $('#userId').val();
+    currentStatus=status;
+
+    function JumpTo(phaseIndex) {
+        if(phaseIndex>status){
+            return false;
+        }
+        flowToPhase(phaseIndex);
+        changeLeftStatus(phaseIndex);
+        currentStatus=phaseIndex;
+    }
+
+    jumpNext=function () {
+        console.log('jumpNext======');
+        console.log(self.parent);
+        if(currentStatus!==status){
+            parent.layer.msg("当前环节不是最新环节，请刷新流程",{icon:2});
+            return;
+        }
+        self.parent.frames["external-frame"].saveData(updateOrderStatus,orderId,parseInt(status)+1);
+        //updateOrderStatus(orderId,parseInt(status)+1);
+    }
+
+
+    /*工单流转到环节*/
+    this.flowToPhase = function(phaseIndex) {
+        var root = window.parent.document.location.origin;
+        var dir = '/frame/' + userId + '/'+orderId+'/'+phaseIndex+'/'+busiId+'/detail';
+        window.parent.document.getElementById('external-frame').src = root + dir;
+        return true;
+    }
+
+    this.updateOrderStatus = function(orderid, newstatus) {
+        console.log('updateOrderStatus======');
+        var self = this;
+        var url = "/order";
+        $.ajax({
+            type: "PUT",
+            url: url,
+            dataType: "json",
+            data:{
+                id:orderid,
+                status:newstatus
+            },
+            success: function (result) {
+                console.log('updateOrderStatus======success');
+                if(result.success) {
+                    flowToPhase(newstatus);
+                    status = result.data.status;
+                    changeLeftStatus(newstatus+'');
+                }else{
+                    layer.msg(result.message,{icon:2});
+                }
+            },
+            error: function (msg) {
+                layer.msg('execute updateOrderStatus failed:' + msg);
+            }
+        });
+    }
+
+    function changeLeftStatus(jumpPhaseId) {
+        console.log("jumpPhaseId",jumpPhaseId);
+        jumpPhaseId=jumpPhaseId+'';
+        var ul = document.getElementById('ul');
+        for (var i=0; i<ul.children.length; i++) {
+            var li = ul.children[i];
+            var phaseId = li.getAttribute('id');
+            console.log('phaseId',phaseId);
+            console.log('phaseId === jumpPhaseId',phaseId === jumpPhaseId);
+            li.classList.remove("gray_step");
+            if (phaseId === jumpPhaseId) {
+                console.log('11111111111111');
+                li.classList.add("current_step");
+            } else {
+                li.classList.remove("current_step");
+                if(phaseId>status){
+                    li.classList.add("gray_step");
+                }
+            }
+
+        }
+    }
+
+    this.cancel = function() {
+        if (iStatus == 3 || iStatus == 6 || iStatus == 11 || iStatus == 14 || iStatus == 16 || iStatus == 17) {
+            parent.layer.msg('不能撤销');
+            return false;
+        } else {
+            var self = this;
+            parent.layer.confirm('确定撤销吗?', { btn: ['确定','取消'] }, function(index){
+                self.updateOrderStatus(orderId, 7);
+                parent.layer.close(index);
+            }, function() {
+                return;
+            });
+        }
+    }
+
+    this.file = function() {
+        if (iStatus == 6) {
+            var self = this;
+            parent.layer.confirm('确定归档吗?', { btn: ['确定','取消'] }, function(index){
+                self.updateOrderStatus(orderId, 6);
+                parent.layer.close(index);
+            }, function() {
+                return;
+            });
+        } else {
+            return false;
+        }
+    }
+
+    this.backOrder = function() {
+        if (iStatus == 4 || iStatus == 5 || iStatus == 6 || iStatus == 7 ||
+            iStatus == 9 || iStatus == 10 || iStatus == 12 || iStatus == 15) {
+            var self = this;
+            var alarm = '';
+            if (iStatus == 9 || iStatus == 10) {
+                alarm = "下发指令操作未完成，建议先在指令下发页面中回退指令。工单流程环节回退并不自动回退未处理完的下发任务。";
+            }
+            var text = this.getStateText();
+            alarm += '确定从' + text + '环节回退到数据录入环节吗?';
+            parent.layer.confirm(alarm, { btn: ['确定','取消'] }, function(index){
+                self.orderback();
+                parent.layer.close(index);
+            }, function() {
+                return;
+            });
+        } else {
+            return false;
+        }
+    }
+
+    this.orderback = function() {
+        var self = this;
+        var url = "/order/back/" + orderId + "/" + iStatus + "/1/" + busiId + "/" + userId;
+        $.ajax({
+            type: "POST",
+            url: url,
+            dataType: "json",
+            success: function (data) {
+                if (data == '1') {
+                    document.getElementById('orderId').value = orderId;
+                    document.getElementById('status').value = '1';
+                    document.getElementById('busiId').value = busiId;
+                    document.getElementById('userId').value = userId;
+                    self.init();
+                    var text = self.getStateText();
+                    parent.layer.msg('回退成功:已从'+text+'环节回退到数据录入环节');
+                } else {
+                    parent.layer.msg('dubbo orderBackOperate返回不等于1');
+                }
+            },
+            error: function (msg) {
+                parent.layer.msg('dubbo orderBackOperate failed:' + msg);
+            }
+        });
+    }
+    function openHistory(userId) {
+        window.open("/result/"+userId);
+    }
+
+    $(document).ready(function(){
+        console.log(status);
+        flowToPhase(status);
+        changeLeftStatus(status);
+    });
+
+    //]]>
+</script>
+</html>

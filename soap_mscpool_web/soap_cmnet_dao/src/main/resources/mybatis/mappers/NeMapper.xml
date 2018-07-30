@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.boco.soap.cmnet.dao.NeMapper" >
+  <resultMap id="BaseResultMap" type="com.boco.soap.cmnet.beans.entity.Ne" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="PHYSICAL_CITY" property="physicalCity" jdbcType="VARCHAR" />
+    <result column="VENDOR" property="vendor" jdbcType="VARCHAR" />
+    <result column="COVER_CITY" property="coverCity" jdbcType="VARCHAR" />
+    <result column="VERSION" property="version" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, NAME, PHYSICAL_CITY, VENDOR, COVER_CITY, VERSION
+  </sql>
+  <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_NE
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="getAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from T_NE
+  </select>
+    <select id="getByCityName" parameterType="java.lang.String" resultType="com.boco.soap.cmnet.beans.entity.Ne">
+      select
+      <include refid="Base_Column_List" />
+      from T_NE
+      WHERE COVER_CITY=#{coverCity}
+    </select>
+    <delete id="deleteById" parameterType="java.lang.String" >
+    delete from T_NE
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="save" parameterType="com.boco.soap.cmnet.beans.entity.Ne" >
+    insert into T_NE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="physicalCity != null" >
+        PHYSICAL_CITY,
+      </if>
+      <if test="vendor != null" >
+        VENDOR,
+      </if>
+      <if test="coverCity != null" >
+        COVER_CITY,
+      </if>
+      <if test="version != null" >
+        VERSION,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="physicalCity != null" >
+        #{physicalCity,jdbcType=VARCHAR},
+      </if>
+      <if test="vendor != null" >
+        #{vendor,jdbcType=VARCHAR},
+      </if>
+      <if test="coverCity != null" >
+        #{coverCity,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.boco.soap.cmnet.beans.entity.Ne" >
+    update T_NE
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="physicalCity != null" >
+        PHYSICAL_CITY = #{physicalCity,jdbcType=VARCHAR},
+      </if>
+      <if test="vendor != null" >
+        VENDOR = #{vendor,jdbcType=VARCHAR},
+      </if>
+      <if test="coverCity != null" >
+        COVER_CITY = #{coverCity,jdbcType=VARCHAR},
+      </if>
+      <if test="version != null" >
+        VERSION = #{version,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+
+</mapper>

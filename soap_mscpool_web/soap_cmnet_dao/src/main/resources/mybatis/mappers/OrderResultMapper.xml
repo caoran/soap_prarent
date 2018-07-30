@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.boco.soap.cmnet.dao.OrderResultMapper" >
+  <resultMap id="BaseResultMap" type="com.boco.soap.cmnet.beans.entity.OrderResult" >
+    <id column="ID" property="id" jdbcType="DECIMAL" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_USER_ID" property="createUserId" jdbcType="VARCHAR" />
+    <result column="RIGHT_NO" property="rightNo" jdbcType="DECIMAL" />
+    <result column="WRONG_NO" property="wrongNo" jdbcType="DECIMAL" />
+    <result column="LOST_NO" property="lostNo" jdbcType="DECIMAL" />
+    <result column="MORE_NO" property="moreNo" jdbcType="DECIMAL" />
+    <result column="ORDER_ID" property="orderId" jdbcType="VARCHAR" />
+    <result column="BUSI_ID" property="busiId" jdbcType="VARCHAR" />
+    <result column="DICT_ID" property="dictId" jdbcType="VARCHAR" />
+    <result column="CUR_TABLE" property="curTable" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CREATE_TIME, CREATE_USER_ID, RIGHT_NO, WRONG_NO, LOST_NO, MORE_NO, ORDER_ID, 
+    BUSI_ID, DICT_ID, CUR_TABLE
+  </sql>
+  <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_ORDER_RESULT
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.String" >
+    delete from T_ORDER_RESULT
+    where ID = #{id,jdbcType=DECIMAL}
+  </delete>
+
+  <insert id="save" parameterType="com.boco.soap.cmnet.beans.entity.OrderResult" >
+    insert into T_ORDER_RESULT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID,
+      </if>
+      <if test="rightNo != null" >
+        RIGHT_NO,
+      </if>
+      <if test="wrongNo != null" >
+        WRONG_NO,
+      </if>
+      <if test="lostNo != null" >
+        LOST_NO,
+      </if>
+      <if test="moreNo != null" >
+        MORE_NO,
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID,
+      </if>
+      <if test="busiId != null" >
+        BUSI_ID,
+      </if>
+      <if test="dictId != null" >
+        DICT_ID,
+      </if>
+      <if test="curTable != null" >
+        CUR_TABLE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="rightNo != null" >
+        #{rightNo,jdbcType=DECIMAL},
+      </if>
+      <if test="wrongNo != null" >
+        #{wrongNo,jdbcType=DECIMAL},
+      </if>
+      <if test="lostNo != null" >
+        #{lostNo,jdbcType=DECIMAL},
+      </if>
+      <if test="moreNo != null" >
+        #{moreNo,jdbcType=DECIMAL},
+      </if>
+      <if test="orderId != null" >
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="busiId != null" >
+        #{busiId,jdbcType=VARCHAR},
+      </if>
+      <if test="dictId != null" >
+        #{dictId,jdbcType=VARCHAR},
+      </if>
+      <if test="curTable != null" >
+        #{curTable,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.boco.soap.cmnet.beans.entity.OrderResult" >
+    update T_ORDER_RESULT
+    <set >
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="rightNo != null" >
+        RIGHT_NO = #{rightNo,jdbcType=DECIMAL},
+      </if>
+      <if test="wrongNo != null" >
+        WRONG_NO = #{wrongNo,jdbcType=DECIMAL},
+      </if>
+      <if test="lostNo != null" >
+        LOST_NO = #{lostNo,jdbcType=DECIMAL},
+      </if>
+      <if test="moreNo != null" >
+        MORE_NO = #{moreNo,jdbcType=DECIMAL},
+      </if>
+      <if test="orderId != null" >
+        ORDER_ID = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="busiId != null" >
+        BUSI_ID = #{busiId,jdbcType=VARCHAR},
+      </if>
+      <if test="dictId != null" >
+        DICT_ID = #{dictId,jdbcType=VARCHAR},
+      </if>
+      <if test="curTable != null" >
+        CUR_TABLE = #{curTable,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

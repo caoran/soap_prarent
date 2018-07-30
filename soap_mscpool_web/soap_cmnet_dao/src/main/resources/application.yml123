@@ -1,0 +1,40 @@
+spring:
+  datasource:
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+    url: jdbc:oracle:thin:@192.168.100.128:1521:orcl
+    username: orcl
+    password: orcl
+    druid:
+      validationQuery: SELECT 1
+      initialSize: 10
+      minIdle: 10
+      maxActive: 200
+      minEvictableIdleTimeMillis: 180000
+      testOnBorrow: false
+      testWhileIdle: true
+      removeAbandoned: true
+      removeAbandonedTimeout: 1800
+      logAbandoned: true
+      poolPreparedStatements: true
+      maxOpenPreparedStatements: 100
+
+
+mybatis:
+  mapper-locations: classpath:mybatis/mappers/*.xml
+  config-locations: classpath:mybatis/mybatis-config.xml
+  type-aliases-package: com.boco.soap.web.model
+
+
+  redis:
+    database: 0
+    host: 192.168.100.128
+    port: 6379
+    #password: 123456
+    pool:
+      max-active: 8
+      max-wait: -1
+      max-idle: 18
+      min-idle: 0
+    timeout: 0
+
+ 

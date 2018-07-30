@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.boco.soap.cmnet.dao.BusiMapper" >
+  <resultMap id="BaseResultMap" type="com.boco.soap.cmnet.beans.entity.Busi" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="DATE" />
+    <result column="CREATE_USER_ID" property="createUserId" jdbcType="VARCHAR" />
+    <result column="BUSI_NAME" property="busiName" jdbcType="VARCHAR" />
+    <result column="MENU_URL" property="menuUrl" jdbcType="VARCHAR" />
+    <result column="SEQ_NO" property="seqNo" jdbcType="DECIMAL" />
+    <result column="IS_DELETE" property="isDelete" jdbcType="DECIMAL" />
+    <result column="IMG_URL" property="imgUrl" jdbcType="VARCHAR" />
+    <result column="PROCESS_ID" property="processId" jdbcType="VARCHAR" />
+    <result column="STD_TABLE" property="stdTable" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CREATE_TIME, CREATE_USER_ID, BUSI_NAME, MENU_URL, SEQ_NO, IS_DELETE,IMG_URL,PROCESS_ID,STD_TABLE
+  </sql>
+  <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_BUSI
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <select id="getAll" resultType="com.boco.soap.cmnet.beans.entity.Busi" parameterType="com.boco.soap.cmnet.beans.entity.Busi">
+    select
+    <include refid="Base_Column_List" />
+    from T_BUSI
+    <where>
+      <if test="createTime != null" >
+       and CREATE_TIME = #{createTime,jdbcType=DATE}
+      </if>
+      <if test="createUserId != null" >
+          and CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR}
+      </if>
+      <if test="busiName != null" >
+          and  BUSI_NAME = #{busiName,jdbcType=VARCHAR}
+      </if>
+      <if test="menuUrl != null" >
+          and MENU_URL = #{menuUrl,jdbcType=VARCHAR}
+      </if>
+      <if test="imgUrl != null" >
+          and IMG_URL = #{imgUrl,jdbcType=VARCHAR}
+      </if>
+      <if test="seqNo != null" >
+          and SEQ_NO = #{seqNo,jdbcType=DECIMAL}
+      </if>
+      <if test="isDelete != null" >
+          and IS_DELETE = #{isDelete,jdbcType=DECIMAL}
+      </if>
+      <if test="processId != null" >
+          and PROCESS_ID = #{processId,jdbcType=VARCHAR}
+      </if>
+      <if test="stdTable != null" >
+          and STD_TABLE = #{stdTable,jdbcType=VARCHAR}
+      </if>
+    </where>
+  </select>
+
+  <delete id="deleteById" parameterType="java.lang.String" >
+    delete from T_BUSI
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="save" parameterType="com.boco.soap.cmnet.beans.entity.Busi"  >
+    insert into T_BUSI
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID,
+      </if>
+      <if test="busiName != null" >
+        BUSI_NAME,
+      </if>
+      <if test="menuUrl != null" >
+        MENU_URL,
+      </if>
+      <if test="imgUrl != null" >
+        IMG_URL,
+      </if>
+      <if test="seqNo != null" >
+        SEQ_NO,
+      </if>
+      <if test="isDelete != null" >
+        IS_DELETE,
+      </if>
+        <if test="processId != null" >
+            PROCESS_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=DATE},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="busiName != null" >
+        #{busiName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuUrl != null" >
+        #{menuUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="imgUrl != null" >
+        #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="seqNo != null" >
+        #{seqNo,jdbcType=DECIMAL},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=DECIMAL},
+      </if>
+    <if test="processId != null" >
+        #{processId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.boco.soap.cmnet.beans.entity.Busi" >
+    update T_BUSI
+    <set >
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=DATE},
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="busiName != null" >
+        BUSI_NAME = #{busiName,jdbcType=VARCHAR},
+      </if>
+      <if test="menuUrl != null" >
+        MENU_URL = #{menuUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="seqNo != null" >
+        SEQ_NO = #{seqNo,jdbcType=DECIMAL},
+      </if>
+      <if test="isDelete != null" >
+        IS_DELETE = #{isDelete,jdbcType=DECIMAL},
+      </if>
+      <if test="imgUrl != null" >
+          IMG_URL  = #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="processId != null" >
+          PROCESS_ID  = #{processId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

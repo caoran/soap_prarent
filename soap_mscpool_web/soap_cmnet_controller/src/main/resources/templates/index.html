@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html  xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>大数据核查</title>
+<link th:href="@{/css/main_style.css}" rel="stylesheet" type="text/css" />
+</head>
+
+<body class="paper">
+
+  <ul  class="blk_linkbt">
+    <li th:each="busi,iterStat : ${busilist}" th:class="${iterStat.odd}?link_bt1:link_bt2">
+      <img th:src="${busi.imgUrl}" width="66" height="56" />
+      <a href="javascript:void(0)" th:onclick="'javascript:startOrder(\''+${busi.id}+'\',\''+${userId}+'\')'" th:text="${busi.busiName}">VoLTE参数核查</a>
+    </li>
+    <!--<li class="link_bt2"><img src="images/pool.png" width="66" height="56" /><a href="common/step.html">Pool数据核查</a></li>-->
+  </ul>
+</body>
+<script th:src="@{/js/jquery-1.11.0.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.serializejson.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/layer/layer.js}"></script>
+
+<script type="text/javascript">
+    //<![CDATA[
+    var startOrder=function (busiId,userId) {
+        console.log(busiId);
+        console.log(userId);
+       $.ajax({
+            type : "get",
+            dataType : "json",
+            url: "/order/"+busiId+"/businame",
+            success: function (orderName) {
+                console.log(orderName);
+                $.ajax({
+                    type : "post",
+                    dataType : "json",
+                    url: "/order",
+                    data:{
+                        busiId:busiId,
+                        userId:userId,
+                        orderName:orderName
+                    },
+                    success: function (result) {
+                        if(result.success) {
+                            //layer.msg(result.message, {icon: 1});
+                            window.location.href="/frame/"+result.data.busiId+'/'+result.data.id+'/'+userId;
+                        }else {
+                            layer.msg(result.message,{icon:2});
+                        }
+                    },
+                    error : function(XMLHttpRequest, textStatus, errorThrown) {
+                        console.log("js调用错误信息：" + XMLHttpRequest.readyState
+                            + "-textStatus:" + textStatus);
+                    }
+                });
+                return true;
+            },
+            error : function(XMLHttpRequest, textStatus, errorThrown) {
+                console.log("js调用错误信息：" + XMLHttpRequest.readyState
+                    + "-textStatus:" + textStatus);
+            }
+        });
+    };
+    //]]>
+
+</script>
+</html>

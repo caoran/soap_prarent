@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>历史结果</title>
+<link th:href="@{/css/main_style.css}" rel="stylesheet" type="text/css" />
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" media="screen" />
+  <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}" media="screen" />
+  <link rel="stylesheet" th:href="@{/js/layer/mobile/need/layer.css}"
+        media="screen" />
+  <link rel="stylesheet" th:href="@{/css/bootstrap-table.css}"
+        media="screen" />
+</head>
+
+<body>
+<div class="page_con">
+  <table width="100%" border="0" cellspacing="0" cellpadding="0">
+    <tr>
+      <td class="seqrch_tit">错误的<span>数据</span>/列表</td>
+      <td align="right"><div class="searchbt_blk">
+          <label for="numberfiled" th:text="${#lists.toList(searchFiled)[0]}"></label>
+          <input name="input3" type="text"  id="numberfiled" />
+          <input name="input5" type="button" value="搜索" id="searchButton"/>
+          <input name="input3" type="reset" value="导出"  id="exportButton"/>
+        </div></td>
+    </tr>
+
+  </table>
+  <table width="100%" border="0" cellspacing="0" cellpadding="0" id="table" class="data_tab">
+    <thead>
+    <tr>
+      <th th:each="itemName,iterStat : ${itemNameList}" align="center" valign="middle" nowrap="nowrap"  th:text="${itemName}" th:attr="data-field=${itemName}" >
+      </th>
+    </tr>
+    </thead>
+  </table>
+
+</div>
+</body>
+
+<script th:src="@{/js/html5shiv.min.js}"></script>
+<script th:src="@{/js/date_util.js}"></script>
+<script th:src="@{/js/table_util.js}"></script>
+<script th:src="@{/js/jquery-1.11.0.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap-table.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.zlight.menu.1.0.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap-table-zh-CN.js}"></script>
+
+
+<script th:inline="javascript" type="text/javascript" >
+    //<![CDATA[
+    $(function () {
+        var resultList=[[${resuList}]];
+        var orderId=[[${orderId}]];
+        var busiDictName=[[${busiDictName}]];
+        var paramName=[[${#lists.toList(searchFiled)[0]}]];
+
+        $('#numberfiled').on('focus', function(){
+            $('#numberfiled').val("");
+        });
+
+
+        $('#searchButton').on('click', function(){
+            var paramValue=$('#numberfiled').val();
+            console.log(paramName,"paramName");
+            console.log(paramValue,"paramValue");
+            $.ajax({
+                type : "post",
+                dataType : "json",
+                url: "/order/"+orderId+"/"+busiDictName+"/detail",
+                cache: false,
+                data:{
+                    paramName:paramName,
+                    paramValue:paramValue
+                },
+                success: function (data) {
+                    console.log(data.data)
+                    if(data.success) {
+                        $('#table').bootstrapTable('load', data.data);
+                    }
+                },
+                error : function(XMLHttpRequest, textStatus, errorThrown) {
+                    console.log("js调用错误信息：" + XMLHttpRequest.readyState
+                        + "-textStatus:" + textStatus);
+                }
+            });
+          });
+
+      $('#exportButton').on('click', function(){
+          var paramValue=$('#numberfiled').val();
+          console.log(paramName,"paramName");
+          console.log(paramValue,"paramValue");
+          window.location.href="/order/"+orderId+"/"+busiDictName+"/detail/excel?paramName="+paramName+"&paramValue="+paramValue;
+      });
+
+        $('#table').bootstrapTable('destroy');
+        $('#table').bootstrapTable({
+            pagination: true,
+            dataType: "json",
+            method: 'get',
+            cache: false,
+            contentType: "application/x-www-form-urlencoded",
+            //url:"/findAllPointData?order_id="+order_id+"&ne_name="+ne_name+"&check_name="+check_name+"&type="+type+"&operate_type="+operate_type,
+            sidePagination: "client", //服务端处理分页
+            // sidePagination : "server", //分页方式：client客户端分页，server服务端分页（*）
+            pageNumber : 1, //初始化加载第一页，默认第一页
+            pageSize : 10, //每页的记录行数（*）
+            pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+            data: resultList
+        });
+        $('#table').bootstrapTable('hideLoading');
+            /*}
+        })*/
+    });
+    //]]>
+
+</script>
+
+
+</html>

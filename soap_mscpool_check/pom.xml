@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.boco</groupId>
+    <artifactId>soap_cmnet_parent</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+  </parent>
+  <groupId>com.boco</groupId>
+  <artifactId>soap_mscpool_check</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <name>soap_mscpool_check</name>
+  <url>http://maven.apache.org</url>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+  <dependencies>
+    <dependency>
+      <groupId>com.boco</groupId>
+      <artifactId>soap_cmnet_util</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>com.boco</groupId>
+      <artifactId>soap_cmnet_beans</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.mybatis.spring.boot</groupId>
+      <artifactId>mybatis-spring-boot-starter</artifactId>
+      <version>${spring-boot.mybatis.version}</version>
+    </dependency>
+   <!-- <dependency>
+      <groupId>com.boco</groupId>
+      <artifactId>soap_cmnet_dao</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>-->
+      <dependency>
+          <groupId>dom4j</groupId>
+          <artifactId>dom4j</artifactId>
+          <version>1.6.1</version>
+      </dependency>
+  </dependencies>
+</project>

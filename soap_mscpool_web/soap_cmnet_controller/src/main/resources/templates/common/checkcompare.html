@@ -1,0 +1,61 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>核查对比</title>
+<link th:href="@{/css/main_style.css}" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+<div class="page_con">
+    <div class="show_result">
+     <span><img th:src="@{/images/ico_time.png}" width="45" height="60" /></span>
+     <!--<h3>已耗时  20:20:20</h3>-->
+     <p>核查比对正在进行中，请耐心等待。核查结束后将自动进行跳转……</p>
+  </div>
+</div>
+</body>
+
+
+<script th:src="@{/js/html5shiv.min.js}"></script>
+<script th:src="@{/js/date_util.js}"></script>
+<script th:src="@{/js/table_util.js}"></script>
+<script th:src="@{/js/jquery-1.11.0.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/bootstrap-table.js}"></script>
+<script type="text/javascript" th:src="@{/js/jquery.zlight.menu.1.0.min.js}"></script>
+<script type="text/javascript" th:src="@{/js/layer/layer.js}"></script>
+<script type="text/javascript" th:inline="javascript">
+    //<![CDATA[
+    var status = [[${status}]];
+    var order_id= [[${orderId}]];
+    var userId= [[${userId}]];
+    var busiId= [[${busiId}]];
+    var intTer = null;
+    $(document).ready(function(){
+        intTer = self.setInterval(function(){wait()},6000);//等待核查结束
+    });
+
+    function wait(){
+        $.ajax({
+            type : "get",
+            dataType : "json",
+            url: "/order/"+order_id,
+            success: function(data){
+                console.log("=======================1");
+                console.log(data);
+                if (data.status === 4){
+                    window.clearInterval(intTer);
+                    //location.href = "/frame/"+userId+"/"+orderId+"/"+data.status+"/"+busiId+"/detail";
+                    self.parent.frames["phaseCtrl-frame"].jumpNext();
+                }
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+                console.log("js调用错误信息："+errorThrown);
+            }
+        });
+    }
+
+    //]]>
+</script>
+</html>

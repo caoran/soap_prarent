@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.boco.soap.cmnet.dao.BusiDictMapper" >
+  <resultMap id="BaseResultMap" type="com.boco.soap.cmnet.beans.entity.BusiDict" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATE_USER_ID" property="createUserId" jdbcType="VARCHAR" />
+    <result column="BUSI_ID" property="busiId" jdbcType="VARCHAR" />
+    <result column="IS_DELETE" property="isDelete" jdbcType="DECIMAL" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="CUR_TABLE" property="curTable" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, CREATE_TIME, CREATE_USER_ID, BUSI_ID, IS_DELETE,NAME,CUR_TABLE
+  </sql>
+  <select id="getById" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_BUSI_DICT
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+
+<select id="getList" resultMap="BaseResultMap" parameterType="com.boco.soap.cmnet.beans.entity.BusiDict" >
+    select
+    <include refid="Base_Column_List" />
+    from T_BUSI_DICT
+    <where>
+        <if test="createTime != null" >
+           and CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+        </if>
+        <if test="createUserId != null" >
+            and CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR}
+        </if>
+        <if test="busiId != null" >
+            and BUSI_ID = #{busiId,jdbcType=VARCHAR}
+        </if>
+        <if test="name != null" >
+            and  NAME = #{name,jdbcType=VARCHAR}
+        </if>
+        <if test="curTable != null" >
+            and  CUR_TABLE = #{name,jdbcType=VARCHAR}
+        </if>
+        <if test="isDelete != null" >
+            and IS_DELETE = #{isDelete,jdbcType=DECIMAL}
+        </if>
+    </where>
+  </select>
+  <delete id="deleteById" parameterType="java.lang.String" >
+    delete from T_BUSI_DICT
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+
+  <insert id="save" parameterType="com.boco.soap.cmnet.beans.entity.BusiDict" >
+    insert into T_BUSI_DICT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID,
+      </if>
+      <if test="busiId != null" >
+        BUSI_ID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+        <if test="name != null" >
+        CUR_TABLE,
+      </if>
+      <if test="isDelete != null" >
+        IS_DELETE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="busiId != null" >
+        #{busiId,jdbcType=VARCHAR},
+      </if>
+      <if test="busiId != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+        <if test="curTable != null" >
+        #{curTable,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.boco.soap.cmnet.beans.entity.BusiDict" >
+    update T_BUSI_DICT
+    <set >
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="busiId != null" >
+        BUSI_ID = #{busiId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+        <if test="curTable != null" >
+          CUR_TABLE = #{curTable,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null" >
+        IS_DELETE = #{isDelete,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>

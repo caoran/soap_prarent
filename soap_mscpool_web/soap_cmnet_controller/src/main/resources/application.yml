@@ -1,0 +1,28 @@
+spring:
+  application:
+    name: soap_cmnet_web
+  aop:
+    proxy-target-class: true
+
+  thymeleaf:
+    cache: false
+    enabled: true
+
+#  dubbo:
+#      application:
+#        name: ${@dubbo.consumer.application-name@}
+#      registry:
+#        address: ${@dubbo.consumer.registry-address}
+#        timeout: ${@dubbo.consumer.timeout}
+#      protocol:
+#        name:dubbo
+#        port:20880
+#      scan: ${dubbo.consumer.annotation-package}
+
+server:
+  port: 8081
+
+
+logging:
+  config: classpath:logback.xml
+

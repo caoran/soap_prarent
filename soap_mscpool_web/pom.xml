@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.boco</groupId>
+	<artifactId>soap_cmnet_web</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>soap_cmnet_web</name>
+	<url>http://maven.apache.org</url>
+
+	<!--spring boot 版本-->
+	<parent>
+		<groupId>com.boco</groupId>
+		<artifactId>soap_cmnet_parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<!--系统模板-->
+	<modules>
+		<!--<module>soap_cmnet_util</module>-->
+		<module>soap_cmnet_beans</module>
+		<module>soap_cmnet_dao</module>
+		<module>soap_cmnet_service_impl</module>
+		<module>../soap_mscpool_api</module>
+		<module>../soap_mscpool_message</module>
+	</modules>
+
+	<profiles>
+		<profile>
+			<id>development</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<project.profile>development</project.profile>
+			</properties>
+			<!--<repositories>
+				<repository>
+					<id>nexus-public</id>
+					<url>http://192.168.100.10/nexus/content/repositories/public/</url>
+				</repository>
+				<repository>
+					<id>nexus-snapshots</id>
+					<url>http://192.168.100.10/nexus/content/repositories/snapshots/</url>
+				</repository>
+			</repositories>-->
+		</profile>
+		<profile>
+			<id>production</id>
+			<properties>
+				<project.profile>production</project.profile>
+			</properties>
+		</profile>
+		<profile>
+			<id>114</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+			</activation>
+			<properties>
+				<project.profile>114</project.profile>
+			</properties>
+			<!--<repositories>
+				<repository>
+					<id>nexus-public</id>
+					<url>http://192.168.100.10/nexus/content/repositories/public/</url>
+				</repository>
+				<repository>
+					<id>nexus-snapshots</id>
+					<url>http://192.168.100.10/nexus/content/repositories/snapshots/</url>
+				</repository>
+			</repositories>-->
+		</profile>
+		<profile>
+			<id>test</id>
+			<properties>
+				<project.profile>test</project.profile>
+			</properties>
+		</profile>
+	</profiles>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!--<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>${swagger.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>${swagger.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-web</artifactId>
+			<version>${shiro.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-cas</artifactId>
+			<version>${shiro.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-core</artifactId>
+			<version>${shiro.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-spring</artifactId>
+			<version>${shiro.version}</version>
+		</dependency>
+		&lt;!&ndash; shiro ehcache &ndash;&gt;
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-ehcache</artifactId>
+			<version>${shiro.version}</version>
+		</dependency>-->
+		<!-- ehchache -->
+		<!--<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-cache</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>-->
+
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!--<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-websocket</artifactId>
+		</dependency>-->
+
+		<!--<dependency>
+			<groupId>com.alibaba.spring.boot</groupId>
+			<artifactId>dubbo-spring-boot-starter</artifactId>
+			<version>${spring-dubbo.version}</version>
+		</dependency>-->
+
+		<!--<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.6</version>
+		</dependency>-->
+
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+
+	</dependencies>
+
+
+	<!--依赖版本说明-->
+	<dependencyManagement>
+		<dependencies>
+			<!--<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>${commons-codec.version}</version>
+			</dependency>-->
+			<!-- https://mvnrepository.com/artifact/com.belerweb/pinyin4j -->
+			<!--<dependency>
+				<groupId>com.belerweb</groupId>
+				<artifactId>pinyin4j</artifactId>
+				<version>${pinyin4j.version}</version>
+			</dependency>-->
+
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>fastjson</artifactId>
+				<version>${fastjson.version}</version>
+			</dependency>
+
+
+			<dependency>
+				<groupId>org.apache.commons</groupId>
+				<artifactId>commons-lang3</artifactId>
+				<version>${commons-lang3.version}</version>
+			</dependency>
+
+			<!--		<dependency>
+                        <groupId>com.baomidou</groupId>
+                        <artifactId>mybatis-plus</artifactId>
+                        <version>${mybatis-plus.version}</version>
+                    </dependency>
+
+
+                    <dependency>
+                        <groupId>com.boco</groupId>
+                        <artifactId>soap_cmnet_util</artifactId>
+                        <version>${soap.version}</version>
+                    </dependency>
+
+                    <dependency>
+                        <groupId>org.activiti</groupId>
+                        <artifactId>activiti-spring-boot-starter-basic</artifactId>
+                        <version>${activiti.version}</version>
+                    </dependency>
+
+                    <dependency>
+                        <groupId>org.activiti</groupId>
+                        <artifactId>activiti-spring-boot-starter-rest-api</artifactId>
+                        <version>${activiti.version}</version>
+                    </dependency>
+
+                    <dependency>
+                        <groupId>org.activiti</groupId>
+                        <artifactId>activiti-spring-boot-starter-actuator</artifactId>
+                        <version>${activiti.version}</version>
+                    </dependency>-->
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.6.1</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+					<encoding>UTF-8</encoding>
+					<compilerArgs>
+						<arg>-parameters</arg>
+					</compilerArgs>
+					<useIncrementalCompilation>false</useIncrementalCompilation>
+				</configuration>
+			</plugin>
+			<!--<plugin>
+				<groupId>org.mybatis.generator</groupId>
+				<artifactId>mybatis-generator-maven-plugin</artifactId>
+				<version>1.3.2</version>
+				<configuration>
+					&lt;!&ndash;配置文件的位置&ndash;&gt;
+					<configurationFile>src/main/resources/generatorConfig.xml</configurationFile>
+					<verbose>true</verbose>
+					<overwrite>true</overwrite>
+				</configuration>
+				<executions>
+					<execution>
+						<id>Generate MyBatis Artifacts</id>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>org.mybatis.generator</groupId>
+						<artifactId>mybatis-generator-core</artifactId>
+						<version>1.3.2</version>
+					</dependency>
+				</dependencies>
+			</plugin>-->
+
+
+
+
+		</plugins>
+	</build>
+
+</project>

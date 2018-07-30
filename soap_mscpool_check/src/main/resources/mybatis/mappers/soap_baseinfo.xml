@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright 2010-2012 the original author or authors. Licensed under the
+    Apache License, Version 2.0 (the "License"); you may not use this file
+    except in compliance with the License. You may obtain a copy of the
+    License at http://www.apache.org/licenses/LICENSE-2.0 Unless required
+    by applicable law or agreed to in writing, software distributed under
+    the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+    CONDITIONS OF ANY KIND, either express or implied. See the License for
+    the specific language governing permissions and limitations under the
+    License.
+-->
+
+<!--
+version: $Id$
+-->
+<!DOCTYPE mapper
+		PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boco.soap.db.config.soap_baseinfo">
+
+	<!--参数核查表名 -->
+	<select id="get_stdtbale_paramedata" resultType="java.util.Map"
+			parameterType="java.util.Map">
+        <![CDATA[SELECT * FROM TCI_PARAME_DEF WHERE ${SOLUTION_NAME}=${SOLUTION_ID} 
+        AND NETTYPE=${NETTYPE} AND NETYPE=${NETYPE} AND MANUFACTURE=${MANUFACTURE}]]>
+	</select>
+
+	<!--动态获取业务表名 -->
+	<select id="get_stdtbale_data" resultType="java.util.Map"
+			parameterType="java.util.Map">
+        <![CDATA[SELECT * FROM ${tableName} WHERE ${SOLUTION_NAME}=${SOLUTION_ID}]]>
+	</select>
+
+	<!--动态获取业务表名 -->  <!--   where  ${SOLUTION_NAME}=${SOLUTION_ID} AND NETTYPE=${NETTYPE} AND NETYPE=${NETYPE} AND MANUFACTURE=${MANUFACTURE} -->
+	<select id="get_detailtbale_data" resultType="java.util.Map"	parameterType="java.util.Map">
+        <![CDATA[SELECT TT.* FROM TCI_PARAME_DEF T LEFT JOIN TCI_PARAME_DEF_DETAIL TT ON T.PARAID=TT.PARAMEID
+        ]]>
+	</select>
+
+	<!--动态获取现网表数据 -->
+	<select id="get_curnettable_data" resultType="java.util.Map"
+			parameterType="java.util.Map">
+        <![CDATA[${CurNetTableSql}]]>
+	</select>
+
+	<!--动态获取指令参数数据 -->
+	<select id="get_case_rule_info" resultType="com.check.instruction.pojo.common.enitites.CaseRuleInfo"
+			parameterType="java.util.Map">
+        <![CDATA[${sqls}]]>
+	</select>
+
+	<!--动态获取指令参数数据 -->
+	<select id="get_instructdictparas_data" resultType="com.boco.soap.cmnet.pojo.InstructionItem"
+			parameterType="java.util.Map">
+        <![CDATA[${querySql}]]>
+	</select>
+	<!--动态获取方案下指令对应的参数 -->
+	<select id="get_instructdictparam" resultType="com.check.instruction.pojo.common.enitites.InstructionParam"
+			parameterType="java.util.Map">
+        <![CDATA[${querySql}]]>
+	</select>
+
+	<!--动态获取方案编号SOLUTION_ID -->
+	<select id="get_stdtbale_solutionId" resultType="java.util.Map"
+			parameterType="java.util.Map">
+        <![CDATA[SELECT DISTINCT SOLUTION_ID FROM ${tableName}]]>
+	</select>
+
+	<!--动态获取方案对应的规则集合 -->
+	<select id="get_caseRuleList_By_caseCode" resultType="com.check.instruction.pojo.common.enitites.CaseRuleInfo"
+			parameterType="java.util.Map">
+        <![CDATA[SELECT * FROM ur_case_rule_info  WHERE casecode=${casecode} AND status ='0']]>
+	</select>
+
+	<!--参数核查动态根据参数信息获取指令信息-->
+	<select id="get_busiConsList_By_rulecode_parame" resultType="java.util.Map"
+			parameterType="java.util.Map">
+     <![CDATA[
+        SELECT  INSTUCTIONCODE,RULECODE,DICTID ,CHECKLOGIC,STDPARAMTABLE,LOGTABLE,DEVICEFIELD ,CREATETIME ,CREATEUSER,
+        MODITIME,MODIUSER ,STATUS ,REMARK,CONSTRAINTNAME ,CONSTRAINTPARAMETER,SYSKEY
+        ,SYSVALUE,ADDSORT,DELSORT,ISACCURATECHECK,POSITION ,ISMERGE,FILTEREXPRESSION,GROUPID
+        FROM UR_RULE_INSTRUCTION_INFO  WHERE rulecode=${rulecode} AND status ='0'  AND
+        DICTID in ( select tt.DICTID from TCI_PARAME_DEF tt group by tt.DICTID  ) ]]>
+	</select>
+
+	<!--动态获取方案规则业务信息类型集合 -->
+	<select id="get_busiConsList_By_rulecode" resultType="java.util.Map"
+			parameterType="java.util.Map">
+        <![CDATA[
+        SELECT  INSTUCTIONCODE,RULECODE,DICTID ,CHECKLOGIC,STDPARAMTABLE,LOGTABLE,DEVICEFIELD ,CREATETIME ,CREATEUSER,
+        MODITIME,MODIUSER ,STATUS ,REMARK,CONSTRAINTNAME ,CONSTRAINTPARAMETER,SYSKEY
+        ,SYSVALUE,ADDSORT,DELSORT,ISACCURATECHECK,POSITION ,ISMERGE,FILTEREXPRESSION,GROUPID
+        FROM UR_RULE_INSTRUCTION_INFO  WHERE rulecode=#{rulecode} AND status ='0']]>
+	</select>
+
+	<!--动态获取方案规则业务信息类型集合 -->
+	<select id="get_ruleInsInfoList_By_instructioncode" resultType="com.check.instruction.pojo.common.enitites.RuleInstructionInfo"
+			parameterType="java.util.Map">
+        <![CDATA[ SELECT  INSTUCTIONCODE,RULECODE,DICTID ,CHECKLOGIC,STDPARAMTABLE,LOGTABLE,DEVICEFIELD ,CREATETIME ,CREATEUSER,
+        MODITIME,MODIUSER ,STATUS ,REMARK,CONSTRAINTNAME ,CONSTRAINTPARAMETER,SYSKEY
+        ,SYSVALUE,ADDSORT,DELSORT,ISACCURATECHECK,POSITION ,ISMERGE,FILTEREXPRESSION,GROUPID,COMBINETYPE
+        FROM UR_RULE_INSTRUCTION_INFO   WHERE instuctioncode=#{instructioncode} AND status ='0']]>
+	</select>
+	<!--动态获取方案指令参数集合 -->
+	<select id="get_insParamList_By_instructioncode" resultType="com.check.instruction.pojo.common.enitites.InstructionParam"
+			parameterType="java.util.Map">
+        <![CDATA[SELECT a.*,b.chinesename as chineseName,b.englishname as englishName,b.paramformat as format,
+        priority,is_sort as isSort FROM ur_rule_instruction_param 
+         a left join ur_instruction_dict_item  b on a.paramdictid = b.dictid and  a.paramitemid = b.itemid    
+         WHERE   a.status ='0' and b.status ='0' and a.paramproperty <>'0' 
+          and instructioncode=#{instructioncode} ORDER BY priority]]>
+	</select>
+
+	<!-- 获取指令字典 -->
+	<select id="get_instruction_dict_info" resultType="java.util.Map"
+			parameterType="java.util.Map">
+        <![CDATA[ SELECT PRIORITY,ISTEMPLATE FROM UR_INSTRUCTION_DICT T WHERE DICTID = #{dictid}  ]]>
+	</select>
+
+	<!-- 获取所有网元 -->
+	<select id="getallneelements" resultType="com.boco.soap.common.pojo.impl.NeElementImpl"
+			parameterType="com.boco.soap.common.pojo.impl.NeElementImpl">
+        <![CDATA[SELECT NE_NAME NAME, VENDOR MANUFACTURE,NE_TYPE NETYPE, NET_TYPE NETTYPE, PHYSICAL_ADDR PHYSICALADDR, CORVER_ADDR CORVERADDR, CHANGE_ADDR CHANGEADDR, VERSION VERSION, PHYSICAL_NAME PHYSICANAME, MEDIA_GATE MEDIAGATE, CP_TYPE CPTYPE, SPC SPC, NE_INDEX NEINDEX,IS_VIRTUAL_NE ISVIRTUALNE FROM RES_NETWORK_ELEMENT_INFO]]>
+	</select>
+	<!-- 根据网元名称获取网元 -->
+	<select id="get_neelement_by_name" resultType="com.boco.soap.common.pojo.impl.NeElementImpl"
+			parameterType="java.util.Map">
+        <![CDATA[select ne_name as  name, vendor as manufacture,ne_type as netype, net_type as nettype, physical_addr as physicaladdr, corver_addr as corveraddr, change_addr as changeaddr, version as version, physical_name as physicaname, media_gate as mediagate, cp_type as cptype, spc as spc, ne_index as neindex,is_virtual_ne as isvirtualne,province_name as province_name from res_network_element_info where ne_name  in (#{name})]]>
+	</select>
+
+	<!-- 根据方案id获取方案 -->
+	<select id="get_caseinfo_by_id" resultType="com.check.instruction.pojo.common.enitites.CaseInfo"
+			parameterType="com.check.instruction.pojo.common.enitites.CaseInfo">
+        <![CDATA[SELECT * FROM UR_BUSI_CASE_INFO WHERE STATUS <> '1' AND CASECODE =#{casecode}]]>
+	</select>
+
+	<!-- 根据方案casecode获取该方案下得规则 -->
+	<select id="get_ruleindos_by_casecode" resultType="com.check.instruction.pojo.common.enitites.CaseRuleInfo"
+			parameterType="com.check.instruction.pojo.common.enitites.CaseRuleInfo">
+        <![CDATA[SELECT * FROM UR_CASE_RULE_INFO WHERE CASECODE =#{casecode}]]>
+	</select>
+
+	<!-- 根据rulecode查询约束主键 -->
+	<select id="get_contrains_key_by_rulecode" resultType="java.util.Map"
+			parameterType="java.util.Map">
+        <![CDATA[select constraintname + '|' + constraintparameter cons_key from ur_rule_instruction_info where rulecode = #{rulecode}  and status = 0 group by constraintname + '|' + constraintparameter]]>
+	</select>
+	<!-- 获取contraint下得指令 -->
+	<select id="get_ruleinstructioninfo_by_contraint" resultType="com.check.instruction.pojo.common.enitites.RuleInstructionInfo"
+			parameterType="java.util.Map">
+        <![CDATA[select * from dbo.ur_rule_instruction_info where  status = 0 and  rulecode = #{rulecode} and constraintname + '|' + constraintparameter = #{contraintId} order by addsort ASC]]>
+	</select>
+	<!-- 根据指令id获取指令参数 -->
+	<select id="get_instructionparam_by_instructionid" resultType="com.check.instruction.pojo.common.enitites.InstructionParam"
+			parameterType="com.check.instruction.pojo.common.enitites.InstructionParam">
+        <![CDATA[SELECT p.[id],p.[instructioncode],p.[paramproperty],p.[paramtype],p.[paramdictid],p.[paramitemid], p.[chineseval],p.[englishval],p.[changename],p.[checklogic],p.[ruledesc],p.[createtime], p.[createuser],p.[moditime],p.[modiuser],p.[status],p.[remark], s.chinesename chineseName, s.englishname englishName, (select top 1 paramformat from ur_instruction_dict_item where status='0' and dictid = p.paramdictid and itemid = p.paramitemid ) format, (select top 1 priority from ur_instruction_dict_item where status='0' and dictid=p.paramdictid and itemid = p.paramitemid) priority,is_sort as isSort FROM ur_rule_instruction_param p inner join ur_instruction_dict_item s on p.paramdictid = s.dictid and p.paramitemid = s.itemid and s.status='0' and p.status='0' where instructioncode = #{instructioncode} order by s.priority]]>
+	</select>
+
+	<select id="get_param_change_enitites_by_name" resultType="com.check.instruction.pojo.common.enitites.ParamChangeEnitites"
+			parameterType="com.check.instruction.pojo.common.enitites.ParamChangeEnitites">
+        <![CDATA[select * from ur_param_change where changename = #{changename}]]>
+	</select>
+	<select id="get_param_variant_enitites" resultType="com.check.instruction.pojo.common.enitites.ParamVariantEnitites"
+			parameterType="com.check.instruction.pojo.common.enitites.ParamVariantEnitites">
+        <![CDATA[select * from ur_param_variant where name = #{name} and net_type = #{net_type} and ne_type = #{ne_type} and manufacture = #{manufacture}]]>
+	</select>
+	<!-- 根据dictId获取操作影射 -->
+	<select id="get_operationmapinfo_by_dictid" resultType="com.check.instruction.pojo.common.enitites.OperationMap"
+			parameterType="java.util.Map">
+        <![CDATA[${operationMapSql}]]>
+	</select>
+	<!-- 根据dictId获取操作影射 -->
+	<select id="get_instruction_dict_item_by_dictid" resultType="com.check.instruction.pojo.common.enitites.InstructionItem"
+			parameterType="java.util.Map">
+        <![CDATA[SELECT  id,dictid,itemid,priority,englishname,chinesename,paramformat,paramtype,status,remark,isCore,paramRemark,collectCMD
+  FROM ur_instruction_dict_item  where  dictid= #{dictid}  and status <>1 order by priority ]]>
+	</select>
+
+
+	<select id="get_local_data" resultType="java.util.Map"
+			parameterType="java.util.Map">
+        <![CDATA[${sql}]]>
+	</select>
+	<select id="get_all_variant" resultType="java.util.Map"
+			parameterType="java.util.Map">
+        <![CDATA[SELECT * FROM ur_param_variant where ref_class like 'Varian%']]>
+	</select>
+
+
+	<select id="get_ur_collect_cmdinfo" resultType="com.boco.soap.check.checkdata.create.collect.entitys.CmdGroupEntity"
+			parameterType="java.util.Map">
+		<![CDATA[SELECT t.id id, '' table_id, t.cmdgroup_name cmdgroup_name, t.curtable_name curtable_name,
+		t.ne_type ne_type, t.vendor vendor, t.ne_ver ne_ver
+		 FROM UR_COLLECT_CMDGROUP t ,UR_COLLECT_DICT2CMDG tt  WHERE t.id=tt.cmd_group_id and  tt.dict_id=#{dictid} and  t.id=#{dictGroupId}]]>
+		<!-- 根据网元版本，指令组id和采集指令组id获取指令，建议如果网元有版本就必须配置采集指令组版本信息-->
+		<if test="neVer!=null and neVer!='' ">
+			and t.ne_ver = #{neVer}
+		</if>
+	</select>
+
+	<select id="get_Cmd_By_GroupIdAndType" resultType="com.boco.soap.check.checkdata.create.collect.entitys.CmdEntity"
+			parameterType="java.util.Map">
+        <![CDATA[select * from UR_COLLECT_CMDINFO where groupid = #{groupId} and collect_type=#{collectType} order by collect_no]]>
+	</select>
+
+	<select id="get_order_soap" resultType="com.check.instruction.pojo.common.enitites.SoapOrderInfo" parameterType="java.lang.String">
+		<![CDATA[SELECT * FROM TAI_INAS_ORDER_SOAP WHERE COMN_ORDER_ID = #{orderId}]]>
+	</select>
+	<select id="get_nenames_sqlite" resultType="java.lang.String">
+		<![CDATA[SELECT name FROM USER_SLT_NES]]>
+	</select>
+	<select id="get_stdtable_sqlite" resultType="java.lang.String">
+		<![CDATA[SELECT std_table_name FROM USER_EXEC_STD]]>
+	</select>
+	<select id="get_check_type" resultType="java.lang.Integer">
+		<![CDATA[SELECT is_add_check FROM USER_OPTIONS]]>
+	</select>
+	<select id="get_combine_type" resultType="java.lang.Integer">
+		<![CDATA[SELECT is_std_combine FROM USER_OPTIONS]]>
+	</select>
+	<update id="update_order_soap" parameterType="java.util.Map">
+		<![CDATA[UPDATE TAI_INAS_ORDER_SOAP SET TASK_ID = #{taskId} WHERE COMN_ORDER_ID = #{orderId} ]]>
+	</update>
+	<update id="update_subtask" parameterType="java.util.Map">
+		<![CDATA[UPDATE TAI_INAS_SUBTASK SET CHECK_TASK_ID = #{taskId} WHERE SUBTASK_ID = #{subTaskId} ]]>
+	</update>
+</mapper>

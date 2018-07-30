@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boco.soap.cmnet.dao.OrderResultDetailMapper">
+  <resultMap id="BaseResultMap" type="com.boco.soap.cmnet.beans.entity.OrderResultDetail">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="ORDER_ID" jdbcType="VARCHAR" property="orderId" />
+    <result column="CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="CREATE_USER_ID" jdbcType="VARCHAR" property="createUserId" />
+    <result column="BUSI_ID" jdbcType="VARCHAR" property="busiId" />
+    <result column="DICT_ID" jdbcType="VARCHAR" property="dictId" />
+    <result column="DICT_PARAM_ID" jdbcType="VARCHAR" property="dictParamId" />
+    <result column="STD_VAL" jdbcType="VARCHAR" property="stdVal" />
+    <result column="CUR_VAL" jdbcType="VARCHAR" property="curVal" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, ORDER_ID, CREATE_TIME, CREATE_USER_ID, BUSI_ID, DICT_ID, DICT_PARAM_ID, STD_VAL,
+    CUR_VAL
+  </sql>
+  <select id="getById" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from T_ORDER_REUSLT_DETAIL
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteById" parameterType="java.lang.String">
+    delete from T_ORDER_REUSLT_DETAIL
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="save" parameterType="com.boco.soap.cmnet.beans.entity.OrderResultDetail">
+    insert into T_ORDER_REUSLT_DETAIL
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="orderId != null">
+        ORDER_ID,
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME,
+      </if>
+      <if test="createUserId != null">
+        CREATE_USER_ID,
+      </if>
+      <if test="busiId != null">
+        BUSI_ID,
+      </if>
+      <if test="dictId != null">
+        DICT_ID,
+      </if>
+      <if test="dictParamId != null">
+        DICT_PARAM_ID,
+      </if>
+      <if test="stdVal != null">
+        STD_VAL,
+      </if>
+      <if test="curVal != null">
+        CUR_VAL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orderId != null">
+        #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="busiId != null">
+        #{busiId,jdbcType=DECIMAL},
+      </if>
+      <if test="dictId != null">
+        #{dictId,jdbcType=VARCHAR},
+      </if>
+      <if test="dictParamId != null">
+        #{dictParamId,jdbcType=VARCHAR},
+      </if>
+      <if test="stdVal != null">
+        #{stdVal,jdbcType=VARCHAR},
+      </if>
+      <if test="curVal != null">
+        #{curVal,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="update" parameterType="com.boco.soap.cmnet.beans.entity.OrderResultDetail">
+    update T_ORDER_REUSLT_DETAIL
+    <set>
+      <if test="orderId != null">
+        ORDER_ID = #{orderId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null">
+        CREATE_USER_ID = #{createUserId,jdbcType=VARCHAR},
+      </if>
+      <if test="busiId != null">
+        BUSI_ID = #{busiId,jdbcType=VARCHAR},
+      </if>
+      <if test="dictId != null">
+        DICT_ID = #{dictId,jdbcType=VARCHAR},
+      </if>
+      <if test="dictParamId != null">
+        DICT_PARAM_ID = #{dictParamId,jdbcType=VARCHAR},
+      </if>
+      <if test="stdVal != null">
+        STD_VAL = #{stdVal,jdbcType=VARCHAR},
+      </if>
+      <if test="curVal != null">
+        CUR_VAL = #{curVal,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=DECIMAL}
+  </update>
+</mapper>
